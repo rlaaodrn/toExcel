@@ -1,0 +1,38 @@
+plugins {
+    id "org.springframework.boot" version "2.4.4"
+}
+apply plugin: "java"
+apply plugin: "io.spring.dependency-management"
+apply plugin: "maven-publish"
+
+group = "com.greencross"
+version = "1.0"
+java.sourceCompatibility = JavaVersion.VERSION_11
+[compileJava, compileTestJava]*.options*.encoding = "UTF-8"
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+dependencies {
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
+    testCompileOnly("org.projectlombok:lombok")
+    testAnnotationProcessor("org.projectlombok:lombok")
+    implementation 'org.apache.poi:poi:4.1.2'
+    implementation 'org.apache.poi:poi-ooxml:4.1.2'
+}
+jar {
+    enabled = true
+    archiveFileName = "lims-to-excel.jar"
+}
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = "com.greencross"
+            artifactId = "lims-to-excel"
+            version = 1.0
+            from components.java
+        }
+    }
+}
